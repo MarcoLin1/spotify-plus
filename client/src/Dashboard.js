@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import SpotifyWebApi from 'spotify-web-api-node'
 import useAuth from "./useAuth"
 import TrackSearchResult from './TrackSearchResult'
+import Player from './Player'
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'ffd0971592a943e59c99cb881680c7c4',
@@ -17,15 +18,16 @@ const Songs = styled.div`
   overflowY: auto;
 `
 
-const SearchButton = styled.div`
-  font-weight: bold;
-`
-
-
 export default function Dashboard ({ code }) {
   const accessToken = useAuth(code)
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [playingTrack, setPlayingTrack] = useState()
+
+  function chooseTrack (track) {
+    setPlayingTrack(track)
+    setSearch('')
+  }
 
   useEffect(() => {
     if (!accessToken) {
@@ -78,10 +80,17 @@ export default function Dashboard ({ code }) {
       </Form.Control>
       <Songs className='flex-grow-1 my-2'>
         {searchResults.map(track => (
-          <TrackSearchResult track={track} key={track.uri}/>
+          <TrackSearchResult 
+            track={track} 
+            key={track.uri} 
+            chooseTrack={chooseTrack}
+          />
         ))}
       </Songs>
-      <SearchButton>Button</SearchButton>
+      <Player 
+        accessToken={accessToken} 
+        trackUri={playingTrack?.uri}
+      />
     </Container>
   )
 }
