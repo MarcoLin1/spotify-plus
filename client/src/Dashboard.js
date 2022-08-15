@@ -89,7 +89,6 @@ export default function Dashboard ({ code }) {
       }
     })
       .then(res => {
-        console.log('the lyrics', res)
         setLyrics(res.data.lyrics)
       })
 
