@@ -1,5 +1,6 @@
 import { Form } from 'react-bootstrap'
 import { useState, useEffect } from "react"
+import axios from 'axios'
 import styled from '@emotion/styled'
 import SpotifyWebApi from 'spotify-web-api-node'
 import useAuth from "./useAuth"
@@ -18,15 +19,22 @@ const Songs = styled.div`
   overflowY: auto;
 `
 
+const Lyrics = styled.div`
+  text-align: center;
+  white-space: pre;
+`
+
 export default function Dashboard ({ code }) {
   const accessToken = useAuth(code)
   const [search, setSearch] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [playingTrack, setPlayingTrack] = useState()
+  const [lyrics, setLyrics] = useState('')
 
   function chooseTrack (track) {
     setPlayingTrack(track)
     setSearch('')
+    setLyrics('')
   }
 
   useEffect(() => {
@@ -69,6 +77,24 @@ export default function Dashboard ({ code }) {
       return () => cancel = true
   }, [search, accessToken])
 
+  useEffect(() => {
+    if (!playingTrack) {
+      return
+    }
+
+    axios.get('http://localhost:3001/lyrics', {
+      params: {
+        title: playingTrack.title,
+        artist: playingTrack.artist
+      }
+    })
+      .then(res => {
+        console.log('the lyrics', res)
+        setLyrics(res.data.lyrics)
+      })
+
+  }, [playingTrack])
+
   return (
     <Container className='d-flex flex-column mt-3 mx-3'>
       <Form.Control 
@@ -86,6 +112,9 @@ export default function Dashboard ({ code }) {
             chooseTrack={chooseTrack}
           />
         ))}
+        {searchResults.length === 0 && (
+          <Lyrics>{lyrics}</Lyrics>
+        )}
       </Songs>
       <Player 
         accessToken={accessToken} 

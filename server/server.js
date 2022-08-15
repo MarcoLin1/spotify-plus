@@ -1,7 +1,8 @@
 const express = require('express')
-const SpotifyWebApi = require('spotify-web-api-node')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const SpotifyWebApi = require('spotify-web-api-node')
+const lyricsFinder = require('lyrics-finder')
 
 const app = express()
 app.use(cors())
@@ -50,5 +51,10 @@ app.post('/refresh', (req, res) => {
       res.sendStatus(400)
     })
   })
+
+app.get('/lyrics', async (req, res) => {
+  const lyrics = await lyricsFinder(req.query.artist, req.query.title) || 'No Lyrics'
+  res.json({ lyrics })
+})
 
 app.listen(3001)
