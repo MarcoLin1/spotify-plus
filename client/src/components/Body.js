@@ -11,7 +11,7 @@ import '../scss/Body.scss'
 
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: 'ffd0971592a943e59c99cb881680c7c4',
+  clientId: process.env.REACT_APP_CLIENT_ID,
 })
 
 const BodyContainer = styled.div`
