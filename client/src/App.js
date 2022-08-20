@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useState } from 'react'
 import { ThemeProvider } from '@emotion/react'
-import Login from './Login';
-import Dashboard from './Dashboard';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 const code = new URLSearchParams(window.location.search).get('code')
 

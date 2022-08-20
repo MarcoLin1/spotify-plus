@@ -1,6 +1,6 @@
 import React from "react"
 import styled from '@emotion/styled'
-import SpotifyLogo from './images/Spotify_Logo_RGB_Green.png'
+import SpotifyLogo from '../images/Spotify_Logo_RGB_Green.png'
 
 const Container = styled.div`
   min-height: 100vh;

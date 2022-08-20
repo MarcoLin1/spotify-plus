@@ -2,10 +2,10 @@ import { useState, useEffect } from "react"
 import { Form } from 'react-bootstrap'
 import styled from "@emotion/styled"
 import axios from 'axios'
-import useAuth from "../useAuth"
+import useAuth from "../hooks/useAuth"
 import SpotifyWebApi from 'spotify-web-api-node'
-import TrackSearchResult from '../TrackSearchResult'
-import Player from '../Player'
+import TrackSearchResult from './TrackSearchResult'
+import Player from './Player'
 import Album from "./Album"
 import '../scss/Body.scss'
 
